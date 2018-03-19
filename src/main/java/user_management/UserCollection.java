@@ -37,27 +37,27 @@ public class UserCollection extends ArrayList<User> {
 
     public User attemptLogin(String email, String password) throws UserAuthenticationFailedException {
 
-        User user = this.findByEmail(email);
+        User user = findByEmail(email);
 
-        if (user.getEmail().equals(email)) {
-            if (user.getPassword().matches(password)) {
+        if (user.getEmail().equals(email) && user.getPassword().matches(password)) {
                 return user;
             }
-        }
         throw new UserAuthenticationFailedException();
     }
 
     public int createUser(String name, String email, String password) throws EmailNotAvailableException, InvalidEmailException, PasswordTooSimpleException {
+        //String emailReg = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$";
+        String emailReg = "^([A-Z|a-z|0-9](\\.|_){0,1})+[A-Z|a-z|0-9]\\@([A-Z|a-z|0-9])+((\\.){0,1}[A-Z|a-z|0-9]){2}\\.[a-z]{2,3}$";
 
         if (this.findByEmail(email) != null) {
             throw new EmailNotAvailableException();
         }
 
-        if (!email.matches("\"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$\"")) {
+        if (!email.matches(emailReg)) {
             throw new InvalidEmailException();
         }
 
-        if (password.length() < 8 || !password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\\\$%\\\\^&\\\\*])")) {
+        if (password.length() < 8 || !password.matches("/(?=[#$-/:-?{-~!\"^_`\\[\\]a-zA-Z]*([0-9#$-/:-?{-~!\"^_`\\[\\]]))(?=[#$-/:-?{-~!\"^_`\\[\\]a-zA-Z0-9]*[a-zA-Z])[#$-/:-?{-~!\"^_`\\[\\]a-zA-Z0-9]{4,}/g")) {
             throw new PasswordTooSimpleException();
         }
 
