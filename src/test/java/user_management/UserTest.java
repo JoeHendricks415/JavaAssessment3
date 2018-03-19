@@ -2,6 +2,7 @@ package user_management;
 
 import org.junit.Before;
 import org.junit.Test;
+import java.io.*;
 import user_management.security.Password;
 
 import static org.junit.Assert.*;
